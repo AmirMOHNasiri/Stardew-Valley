@@ -9,8 +9,10 @@ public class SignInMenu implements Menu{
     @Override
     public void handleMenu(String input) {
         Response response = null;
-        if (SignInMenuCommands.LIST_QUESTIONS.matches(input)) {
-            response = getListQuestionsResponse(input);
+        if (SignInMenuController.isProgramWaitingForPassword) {
+            response = getRandomPasswordResponse(input);
+        } else if (SignInMenuCommands.LIST_QUESTIONS.matches(input)) {
+            response = getListQuestionsResponse();
         } else if (SignInMenuController.isProgramWaitingForQuestion) {
             if (SignInMenuCommands.PICK_QUESTION.matches(input)) {
                 response = getPickQuestionResponse(input);
@@ -24,9 +26,13 @@ public class SignInMenu implements Menu{
         }
         printResponse(response);
     }
-    private static Response getListQuestionsResponse(String input) {
-        Request request = new Request(input);
-        return SignInMenuController.handleListQuestions(request);
+
+    private static Response getRandomPasswordResponse(String input) {
+        return SignInMenuController.handleRandomPassword(input);
+    }
+
+    private static Response getListQuestionsResponse() {
+        return SignInMenuController.handleListQuestions();
     }
 
     private static Response getPickQuestionResponse(String input) {

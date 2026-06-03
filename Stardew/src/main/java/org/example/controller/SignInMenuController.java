@@ -3,22 +3,50 @@ package org.example.controller;
 import org.example.model.IO.Request;
 import org.example.model.IO.Response;
 import org.example.model.User;
+import org.example.model.enums.Question;
 import org.example.repository.UserRepository;
 import org.example.utilities.Validation;
+import org.intellij.lang.annotations.Language;
 
 public class SignInMenuController extends Controller {
-    private static User userWaitingForQuestion = null;
-    private static String userPassword;
+    public static boolean isProgramWaitingForPassword = false;
     public static boolean isProgramWaitingForQuestion = false;
     public static boolean isProgramWaitingForAnswer = false;
+    private static String userPassword;
+    private static User userWaitingForQuestion = null;
+    private static User userWaitingForPassword = null;
     private static User userForgetPassword = null;
 
-    public static Response handleListQuestions(Request request) {
+    public static Response handleListQuestions() {
+        Response response = new Response();
+        response.setSuccess(true);
 
+        StringBuilder stringBuilder = new StringBuilder("List of questions:\n");
+        int index = 1;
+        for (Question question : Question.values()) {
+            stringBuilder.append(index).append("- ").append(question).append("\n");
+        }
+        response.setMessage(stringBuilder.toString());
+        return response;
     }
 
     public static Response handlePickQuestions(Request request) {
-
+        int questionNumber = Integer.parseInt(request.body.get("questionNumber"));
+        String answer = request.body.get("answer");
+        String answerConfirm = request.body.get("answerConfirm");
+        if (questionNumber < 1 || questionNumber > 4) {
+            return new Response(false, "Invalid question number!");
+        }
+        if (!answer.equals(answerConfirm)) {
+            return new Response(false, "Answer doesn't match!");
+        }
+        User user = userWaitingForQuestion;
+        user.setQuestion(Question.values()[questionNumber - 1]);
+        user.setAnswer(answer);
+        UserRepository.save(user);
+        isProgramWaitingForQuestion = false;
+        userWaitingForQuestion = null;
+        return new Response(true, "Question pick successfully.");
     }
 
     public static Response handleRegister(Request request) {
@@ -34,12 +62,20 @@ public class SignInMenuController extends Controller {
         while (UserRepository.findByUsername(username) != null) {
             username = username + (int) (Math.random() * 69420);
         }
+        if (!Validation.validateEmail(email)) {
+            return new Response(false, "Email is invalid!");
+        }
         if (password.equalsIgnoreCase(passwordConfirm) &&  password.compareToIgnoreCase("random") == 0) {
             password = Validation.createRandomPassword();
-            passwordConfirm = password;
+            userPassword = password;
+            userWaitingForPassword = new User(username, Validation.hashPassword(password), nickname, email, gender);
+            isProgramWaitingForPassword = true;
+            return new Response(true, "Your password is " + password + "\n" +
+                    "Type 1 or 2 or 3\n" +
+                    "Continue [1]\nNew random password [2]\nBack [3]");
         } else {
             if (!Validation.validatePasswordFormat(password)) {
-                return new Response(false, "Password Format is invalid!");
+                return new Response(false, "Password format is invalid!");
             }
             if (!Validation.validatePasswordSecurity(password).equals("Success")) {
                 return new Response(false, "Password isn't secure! " +
@@ -49,17 +85,42 @@ public class SignInMenuController extends Controller {
                 return new Response(false, "Passwords do not match!");
             }
         }
-        if (!Validation.validateEmail(email)) {
-            return new Response(false, "Email is invalid!");
-        }
         userWaitingForQuestion = new User(username, Validation.hashPassword(password), nickname, email, gender);
         isProgramWaitingForQuestion = true;
-        /*if (System.getenv("APP_MODE") != null && System.getenv("APP_MODE").equals("TEST")) {
-            userPassword = password;
-        }*/
         String message = "User created! Password is: " + password + "\n" +
                 "Enter 'pick question -q <question number> -a <answer> -c <confirm answer>' to choose security question\n" +
                 "You can enter 'list questions' command to see possible security questions\n";
         return new Response(true, message);
+    }
+
+    public static Response handleRandomPassword(String number) {
+        @Language("Regexp")
+        String regex = "[1-3]";
+        if (!number.matches(regex)) {
+            return new Response(false, "Invalid operation!\nContinue [1]\nNew random password [2]\nBack [3]");
+        }
+        int num = Integer.parseInt(number);
+        if (num == 1) {
+            userWaitingForQuestion = userWaitingForPassword;
+            isProgramWaitingForQuestion = true;
+            userWaitingForPassword = null;
+            isProgramWaitingForPassword = false;
+            String message = "User created! Password is: " + userPassword + "\n" +
+                    "Enter 'pick question -q <question number> -a <answer> -c <confirm answer>' to choose security question\n" +
+                    "You can enter 'list questions' command to see possible security questions\n";
+            userPassword = null;
+            return new Response(true, message);
+        }else if (num == 2) {
+            userPassword = Validation.createRandomPassword();
+            userWaitingForPassword.setPasswordHash(Validation.hashPassword(userPassword));
+            return new Response(true, "Your password is " + userPassword + "\n" +
+                    "Type 1 or 2 or 3\n" +
+                    "Continue [1]\nNew password [2]\nExit [3]");
+        } else {
+            userWaitingForPassword = null;
+            userPassword = null;
+            isProgramWaitingForPassword = false;
+            return new Response(true, "Cancel registering");
+        }
     }
 }

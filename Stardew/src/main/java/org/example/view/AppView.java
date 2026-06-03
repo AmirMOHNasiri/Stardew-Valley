@@ -1,6 +1,5 @@
 package org.example.view;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import org.example.model.App;
 import org.example.model.enums.MenuTypes;
 import org.example.utilities.Environment;

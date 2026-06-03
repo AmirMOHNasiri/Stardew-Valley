@@ -67,7 +67,7 @@ public class Validation {
         String username = matcher.group("username");
         String domain = matcher.group("domain");
         String tail = matcher.group("tail");
-        if (thisCharCount('@', email) != 1) {
+        if (thisCharCount(email) != 1) {
             return false;
         }
         if (!username.matches("^[a-zA-Z\\d_.-]+$")) {
@@ -88,10 +88,7 @@ public class Validation {
         if (invalidFrontAndEndChars(domain)) {
             return false;
         }
-        if (invalidFrontAndEndChars(tail)) {
-            return false;
-        }
-        return true;
+        return !invalidFrontAndEndChars(tail);
     }
 
     public static String hashPassword(String password) {
@@ -112,10 +109,10 @@ public class Validation {
         }
     }
 
-    private static int thisCharCount(char ch, String str) {
+    private static int thisCharCount(String str) {
         int count = 0;
         for (int i = 0; i < str.length(); i++) {
-            if (ch == str.charAt(i)) {
+            if ('@' == str.charAt(i)) {
                 count ++;
             }
         }
