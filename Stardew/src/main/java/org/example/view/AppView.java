@@ -3,7 +3,8 @@ package org.example.view;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.example.model.App;
 import org.example.model.enums.MenuTypes;
-import org.example.model.utilities.Connection;
+import org.example.utilities.Environment;
+import org.example.utilities.HibernateUtil;
 
 import java.util.Scanner;
 
@@ -11,13 +12,12 @@ public class AppView {
     public final static Scanner scanner = new Scanner(System.in);
 
     static {
-        Dotenv.configure()
-                .directory(System.getProperty("user.dir") + "/src/main/java/org/example/config")
-                .filename("env." + System.getenv("APP_MODE").toLowerCase())
-                .systemProperties()
-                .load();
+        Environment.load();
+        HibernateUtil.getSessionFactory();
+        System.out.println("Database Connected!");
 
-        Connection.getDatabase();
+        Runtime.getRuntime().addShutdownHook(
+                new Thread(HibernateUtil::shutdown));
     }
 
     public void run() {
