@@ -29,6 +29,17 @@ public class User {
 
     public User() {}
 
+    public User(String username, String passwordHash, String nickname, String email, String gender) {
+        this.username = username;
+        this.passwordHash = passwordHash;
+        this.nickname = nickname;
+        this.email = email;
+        this.gender = gender;
+        this.gamePlayed = 0;
+        this.highScore = 0;
+        this.currentGame = null;
+    }
+
     public String getNickname() {
         return nickname;
     }

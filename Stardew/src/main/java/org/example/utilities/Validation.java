@@ -1,7 +1,9 @@
 package org.example.utilities;
 
 import org.intellij.lang.annotations.Language;
-
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,5 +55,75 @@ public class Validation {
             password.append((char) ((int) (Math.random() * 93) + '!'));
         }
         return password.toString();
+    }
+
+    public static boolean validateEmail(String email) {
+        @Language("Regexp")
+        String regex = "^(?<username>.+?)@(?<domain>.+?)\\.(?<tail>.+?)$";
+        Matcher matcher = Pattern.compile(regex).matcher(email);
+        if (!matcher.find()) {
+            return false;
+        }
+        String username = matcher.group("username");
+        String domain = matcher.group("domain");
+        String tail = matcher.group("tail");
+        if (thisCharCount('@', email) != 1) {
+            return false;
+        }
+        if (!username.matches("^[a-zA-Z\\d_.-]+$")) {
+            return false;
+        }
+        if(email.contains("..")) {
+            return false;
+        }
+        if (invalidFrontAndEndChars(username)) {
+            return false;
+        }
+        if (!domain.matches("[a-zA-Z\\d-]+")) {
+            return false;
+        }
+        if (!tail.matches("[a-zA-Z]{2,}")) {
+            return false;
+        }
+        if (invalidFrontAndEndChars(domain)) {
+            return false;
+        }
+        if (invalidFrontAndEndChars(tail)) {
+            return false;
+        }
+        return true;
+    }
+
+    public static String hashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static int thisCharCount(char ch, String str) {
+        int count = 0;
+        for (int i = 0; i < str.length(); i++) {
+            if (ch == str.charAt(i)) {
+                count ++;
+            }
+        }
+        return count;
+    }
+
+    private static boolean invalidFrontAndEndChars(String string) {
+        return !string.substring(0, 1).matches("[a-zA-Z\\d]")
+                || !string.substring(string.length() - 1).matches("[a-zA-Z\\d]");
     }
 }
