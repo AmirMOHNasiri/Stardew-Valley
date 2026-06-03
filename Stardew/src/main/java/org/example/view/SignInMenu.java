@@ -25,6 +25,7 @@ public class SignInMenu implements Menu{
         request.body.put("email", SignInMenuCommands.REGISTER.getGroups(input, "email"));
         request.body.put("gender", SignInMenuCommands.REGISTER.getGroups(input, "gender"));
         Response response = SignInMenuController.handleRegister(request);
+
         return response;
     }
 }
