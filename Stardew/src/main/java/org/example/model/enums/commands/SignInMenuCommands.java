@@ -5,7 +5,7 @@ import org.intellij.lang.annotations.Language;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public enum SignInMenuCommands implements Command{
+public enum SignInMenuCommands implements Command {
     REGISTER("^register\\s+-u\\s+(?<username>.+?)\\s+-p\\s+(?<password>.+?)\\s+(?<passwordConfirm>.+?)\\s+-n\\s+(?<nickname>.+?)\\s+-e\\s+(?<email>.+?)\\s+-g\\s+(?<gender>.+)$"),
     PICK_QUESTION("^pick\\s+question\\s+-q\\s+(?<questionNumber>\\d+)\\s+-a\\s+(?<answer>.+?)\\s+-c\\s+(?<answerConfirm>.+)$"),
     LOGIN("^login\\s+-u\\s+(?<username>.+?)\\s+-p\\s+(?<password>\\S+)\\s*(?<loginFlag>\\S+)?$"),

@@ -1,7 +1,8 @@
 package org.example.view;
 
-public class ExitMenu implements Menu {
+public class GameMenu implements Menu {
     @Override
     public void handleMenu(String input) {
+
     }
 }

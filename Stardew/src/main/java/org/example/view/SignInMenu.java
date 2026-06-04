@@ -5,7 +5,7 @@ import org.example.model.IO.Request;
 import org.example.model.IO.Response;
 import org.example.model.enums.commands.SignInMenuCommands;
 
-public class SignInMenu implements Menu{
+public class SignInMenu implements Menu {
     @Override
     public void handleMenu(String input) {
         Response response;

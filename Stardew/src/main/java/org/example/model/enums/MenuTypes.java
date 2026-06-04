@@ -6,6 +6,7 @@ public enum MenuTypes {
     SignInMenu(new SignInMenu()),
     MainMenu(new MainMenu()),
     ProfileMenu(new ProfileMenu()),
+    GameMenu(new GameMenu()),
     ExitMenu(new ExitMenu());
 
     private final Menu menu;

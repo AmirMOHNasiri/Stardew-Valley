@@ -11,6 +11,16 @@ public class Controller {
 
         if (App.getCurrentMenuType() == MenuTypes.SignInMenu) {
             return new Response(false, "Sign in first to navigate menus.");
+        } else if (App.getCurrentMenuType() == MenuTypes.MainMenu) {
+            if (targetMenu.compareToIgnoreCase("GameMenu") == 0) {
+                App.setCurrentMenuType(MenuTypes.GameMenu);
+                return new Response(true, "Going to game menu...");
+            } else if (targetMenu.compareToIgnoreCase("ProfileMenu") == 0) {
+                App.setCurrentMenuType(MenuTypes.ProfileMenu);
+                return new Response(true, "Going to profile menu...");
+            } else {
+                return new Response(false, "Invalid target menu.");
+            }
         } else {
             return new Response(false, "Invalid Operation.");
         }
@@ -20,6 +30,15 @@ public class Controller {
         if (App.getCurrentMenuType() == MenuTypes.SignInMenu) {
             App.setCurrentMenuType(MenuTypes.ExitMenu);
             return new Response(true, "Exiting app...");
+        } else if (App.getCurrentMenuType() == MenuTypes.MainMenu) {
+            App.setCurrentMenuType(MenuTypes.ExitMenu);
+            return new Response(true, "Exiting app...");
+        } else if (App.getCurrentMenuType() == MenuTypes.ProfileMenu) {
+            App.setCurrentMenuType(MenuTypes.MainMenu);
+            return new Response(true, "Exiting to Main Menu...");
+        } else if (App.getCurrentMenuType() == MenuTypes.GameMenu) {
+            App.setCurrentMenuType(MenuTypes.MainMenu);
+            return new Response(true, "Exiting to Main Menu...");
         } else {
             return new Response(false, "Invalid Operation.");
         }
