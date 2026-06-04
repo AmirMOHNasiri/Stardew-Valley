@@ -145,4 +145,17 @@ public class SignInMenuController extends Controller {
         App.setCurrentMenuType(MenuTypes.MainMenu);
         return new Response(true, "Login Successful. Going to Main Menu!");
     }
+
+    public static Response handleForgetPassword(Request request) {
+        String username = request.body.get("username");
+
+        User user = UserRepository.findByUsername(username);
+        if (user == null) {
+            return new Response(false, "User not found!");
+        }
+        userForgetPassword = user;
+        isProgramWaitingForAnswer = true;
+        return new Response(true, "User " + user.getUsername()
+                + ": Answer your security question next.");
+    }
 }

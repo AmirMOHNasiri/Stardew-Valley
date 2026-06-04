@@ -19,9 +19,19 @@ public class SignInMenu implements Menu{
             } else {
                 response = getInvalidCommand();
             }
-        } else if (SignInMenuCommands.REGISTER.matches(input)) {
+        } else if (SignInMenuController.isProgramWaitingForAnswer) {
+            if (SignInMenuCommands.ANSWER.matches(input)) {
+                response = getAnswerResponse();
+            } else {
+                response = getInvalidCommand();
+            }
+        } else if () {
+
+        }else if (SignInMenuCommands.REGISTER.matches(input)) {
             response = getRegisterResponse(input);
         } else if (SignInMenuCommands.LOGIN.matches(input)) {
+            response = getLoginResponse(input);
+        } else if (SignInMenuCommands.FORGET.matches(input)) {
 
         }
         printResponse(response);
@@ -60,5 +70,11 @@ public class SignInMenu implements Menu{
         request.body.put("password", SignInMenuCommands.LOGIN.getGroups(input, "password"));
         request.body.put("loginFlag", SignInMenuCommands.LOGIN.getGroups(input, "loginFlag"));
         return SignInMenuController.handleLogin(request);
+    }
+
+    private static Response getForgetPasswordResponse(String input) {
+        Request request = new Request(input);
+        request.body.put("username", SignInMenuCommands.FORGET.getGroups(input, "username"));
+        return SignInMenuController.handleForgetPassword(request);
     }
 }
