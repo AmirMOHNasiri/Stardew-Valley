@@ -211,7 +211,11 @@ public class SignInMenuController extends Controller {
             userWaitingForPassword = null;
             userPassword = null;
             isProgramWaitingForPassword = false;
-            return new Response(true, "Enter again your command.");
+            if (userForgetPassword == null) {
+                return new Response(true, "Register again.");
+            } else {
+                return new Response(true, "Enter again your new password.");
+            }
         }
     }
 
