@@ -64,7 +64,28 @@ public class UserRepository {
             if (transaction != null) {
                 transaction.rollback();
             }
+
             throw e;
+        }
+    }
+
+    public static void removeStayLoggedInUser() {
+        Transaction transaction = null;
+        User user = getStayLoggedInUser();
+
+        if (user != null) {
+            try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+                transaction = session.beginTransaction();
+                user.setStayLoggedIn(false);
+                session.merge(user);
+                transaction.commit();
+            } catch (Exception e) {
+                if (transaction != null) {
+                    transaction.rollback();
+                }
+
+                throw e;
+            }
         }
     }
 

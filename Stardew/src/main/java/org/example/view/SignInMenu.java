@@ -42,7 +42,7 @@ public class SignInMenu implements Menu {
         } else if (SignInMenuCommands.ENTER_MENU.matches(input)) {
             response = getEnterMenuResponse(input);
         } else if (SignInMenuCommands.EXIT_MENU.matches(input)) {
-            response = getExitMenuEnter();
+            response = getExitMenuResponse();
         } else {
             response = getInvalidCommand();
         }
@@ -70,15 +70,15 @@ public class SignInMenu implements Menu {
 
     private static Response getPickQuestionResponse(String input) {
         Request request = new Request(input);
-        request.body.put("questionNumber", SignInMenuCommands.PICK_QUESTION.getGroups(input, "questionNumber"));
-        request.body.put("answer", SignInMenuCommands.PICK_QUESTION.getGroups(input, "answer"));
-        request.body.put("answerConfirm", SignInMenuCommands.PICK_QUESTION.getGroups(input, "answerConfirm"));
+        request.body.put("questionNumber", SignInMenuCommands.PICK_QUESTION.getGroup(input, "questionNumber"));
+        request.body.put("answer", SignInMenuCommands.PICK_QUESTION.getGroup(input, "answer"));
+        request.body.put("answerConfirm", SignInMenuCommands.PICK_QUESTION.getGroup(input, "answerConfirm"));
         return SignInMenuController.handlePickQuestions(request);
     }
 
     private static Response getAnswerResponse(String input) {
         Request request = new Request(input);
-        request.body.put("answer", SignInMenuCommands.ANSWER.getGroups(input, "answer"));
+        request.body.put("answer", SignInMenuCommands.ANSWER.getGroup(input, "answer"));
         return SignInMenuController.handleAnswer(request);
     }
 
@@ -89,26 +89,26 @@ public class SignInMenu implements Menu {
 
     private static Response getRegisterResponse(String input) {
         Request request = new Request(input);
-        request.body.put("username", SignInMenuCommands.REGISTER.getGroups(input, "username"));
-        request.body.put("password", SignInMenuCommands.REGISTER.getGroups(input, "password"));
-        request.body.put("passwordConfirm", SignInMenuCommands.REGISTER.getGroups(input, "passwordConfirm"));
-        request.body.put("nickname", SignInMenuCommands.REGISTER.getGroups(input, "nickname"));
-        request.body.put("email", SignInMenuCommands.REGISTER.getGroups(input, "email"));
-        request.body.put("gender", SignInMenuCommands.REGISTER.getGroups(input, "gender"));
+        request.body.put("username", SignInMenuCommands.REGISTER.getGroup(input, "username"));
+        request.body.put("password", SignInMenuCommands.REGISTER.getGroup(input, "password"));
+        request.body.put("passwordConfirm", SignInMenuCommands.REGISTER.getGroup(input, "passwordConfirm"));
+        request.body.put("nickname", SignInMenuCommands.REGISTER.getGroup(input, "nickname"));
+        request.body.put("email", SignInMenuCommands.REGISTER.getGroup(input, "email"));
+        request.body.put("gender", SignInMenuCommands.REGISTER.getGroup(input, "gender"));
         return SignInMenuController.handleRegister(request);
     }
 
     private static Response getLoginResponse(String input) {
         Request request = new Request(input);
-        request.body.put("username", SignInMenuCommands.LOGIN.getGroups(input, "username"));
-        request.body.put("password", SignInMenuCommands.LOGIN.getGroups(input, "password"));
-        request.body.put("loginFlag", SignInMenuCommands.LOGIN.getGroups(input, "loginFlag"));
+        request.body.put("username", SignInMenuCommands.LOGIN.getGroup(input, "username"));
+        request.body.put("password", SignInMenuCommands.LOGIN.getGroup(input, "password"));
+        request.body.put("loginFlag", SignInMenuCommands.LOGIN.getGroup(input, "loginFlag"));
         return SignInMenuController.handleLogin(request);
     }
 
     private static Response getForgetPasswordResponse(String input) {
         Request request = new Request(input);
-        request.body.put("username", SignInMenuCommands.FORGET.getGroups(input, "username"));
+        request.body.put("username", SignInMenuCommands.FORGET.getGroup(input, "username"));
         return SignInMenuController.handleForgetPassword(request);
     }
 
@@ -121,7 +121,7 @@ public class SignInMenu implements Menu {
         return SignInMenuController.handleEnterMenu(request);
     }
 
-    private static Response getExitMenuEnter() {
+    private static Response getExitMenuResponse() {
         return SignInMenuController.handleExitMenu();
     }
 }

@@ -13,5 +13,5 @@ public interface Command {
 
     boolean matches(String input);
 
-    String getGroups(String input, String group);
+    String getGroup(String input, String group);
 }

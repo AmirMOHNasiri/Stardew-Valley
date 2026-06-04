@@ -32,7 +32,7 @@ public enum SignInMenuCommands implements Command {
     }
 
     @Override
-    public String getGroups(String input, String group) {
+    public String getGroup(String input, String group) {
         Matcher matcher = getMatcher(input);
         matcher.find();
         String value = matcher.group(group);
