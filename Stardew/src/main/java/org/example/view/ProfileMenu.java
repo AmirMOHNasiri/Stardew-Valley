@@ -73,6 +73,7 @@ public class ProfileMenu implements Menu {
 
     private static Response getEnterMenuResponse(String input) {
         Request request = new Request(input);
+        request.body.put("menuName", ProfileMenuCommands.ENTER_MENU.getGroup(input, "menuName"));
         return ProfileMenuController.handleEnterMenu(request);
     }
 

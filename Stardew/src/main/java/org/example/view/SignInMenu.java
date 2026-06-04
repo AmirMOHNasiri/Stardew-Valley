@@ -118,6 +118,7 @@ public class SignInMenu implements Menu {
 
     private static Response getEnterMenuResponse(String input) {
         Request request = new Request(input);
+        request.body.put("menuName", SignInMenuCommands.ENTER_MENU.getGroup(input, "menuName"));
         return SignInMenuController.handleEnterMenu(request);
     }
 

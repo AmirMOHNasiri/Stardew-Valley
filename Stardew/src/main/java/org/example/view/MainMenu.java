@@ -33,6 +33,7 @@ public class MainMenu implements Menu {
 
     private static Response getEnterMenuResponse(String input) {
         Request request = new Request(input);
+        request.body.put("menuName", MainMenuCommands.ENTER_MENU.getGroup(input, "menuName"));
         return MainMenuController.handleEnterMenu(request);
     }
 
