@@ -40,7 +40,7 @@ public class SignInMenuController extends Controller {
         int questionNumber = Integer.parseInt(request.body.get("questionNumber"));
         String answer = request.body.get("answer");
         String answerConfirm = request.body.get("answerConfirm");
-        if (questionNumber < 1 || questionNumber > 4) {
+        if (questionNumber < 1 || questionNumber > Question.values().length) {
             return new Response(false, "Invalid question number!");
         }
         if (!answer.equals(answerConfirm)) {

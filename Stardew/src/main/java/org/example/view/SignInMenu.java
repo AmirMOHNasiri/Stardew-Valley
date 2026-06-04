@@ -8,7 +8,7 @@ import org.example.model.enums.commands.SignInMenuCommands;
 public class SignInMenu implements Menu{
     @Override
     public void handleMenu(String input) {
-        Response response = null;
+        Response response;
         if (SignInMenuController.isProgramWaitingForPassword) {
             response = getRandomPasswordResponse(input);
         } else if (SignInMenuCommands.LIST_QUESTIONS.matches(input)) {
@@ -32,7 +32,15 @@ public class SignInMenu implements Menu{
         } else if (SignInMenuCommands.LOGIN.matches(input)) {
             response = getLoginResponse(input);
         } else if (SignInMenuCommands.FORGET.matches(input)) {
-
+            response = getForgetPasswordResponse(input);
+        } else if (SignInMenuCommands.SHOW_MENU.matches(input)) {
+            response = getShowMenuResponse(input);
+        } else if (SignInMenuCommands.ENTER_MENU.matches(input)) {
+            response = getEnterMenuResponse(input);
+        } else if (SignInMenuCommands.EXIT_MENU.matches(input)) {
+            response = getExitMenuEnter(input);
+        } else {
+            response = getInvalidCommand();
         }
         printResponse(response);
     }
@@ -88,5 +96,20 @@ public class SignInMenu implements Menu{
         Request request = new Request(input);
         request.body.put("username", SignInMenuCommands.FORGET.getGroups(input, "username"));
         return SignInMenuController.handleForgetPassword(request);
+    }
+
+    private static Response getShowMenuResponse(String input) {
+        Request request = new Request(input);
+        return SignInMenuController.handleShowMenu(request);
+    }
+
+    private static Response getEnterMenuResponse(String input) {
+        Request request = new Request(input);
+        return SignInMenuController.handleEnterMenu(request);
+    }
+
+    private static Response getExitMenuEnter(String input) {
+        Request request = new Request(input);
+        return SignInMenuController.handleExitMenu(request);
     }
 }
