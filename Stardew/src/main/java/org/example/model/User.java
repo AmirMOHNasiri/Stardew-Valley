@@ -26,6 +26,8 @@ public class User {
     private int highScore;
     @Transient
     private Game currentGame;
+    @Column(name = "stay_logged_in")
+    private boolean stayLoggedIn;
 
     public User() {}
 
@@ -38,6 +40,7 @@ public class User {
         this.gamePlayed = 0;
         this.highScore = 0;
         this.currentGame = null;
+        this.stayLoggedIn = false;
     }
 
     public String getNickname() {
@@ -106,5 +109,10 @@ public class User {
     public void setCurrentGame(Game currentGame) {
         this.currentGame = currentGame;
     }
-
+    public boolean isStayLoggedIn() {
+        return stayLoggedIn;
+    }
+    public void setStayLoggedIn(boolean stayLoggedIn) {
+        this.stayLoggedIn = stayLoggedIn;
+    }
 }

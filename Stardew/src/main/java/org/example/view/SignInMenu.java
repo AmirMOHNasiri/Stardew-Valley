@@ -19,7 +19,7 @@ public class SignInMenu implements Menu{
             } else {
                 response = getInvalidCommand();
             }
-        }else if (SignInMenuCommands.REGISTER.matches(input)) {
+        } else if (SignInMenuCommands.REGISTER.matches(input)) {
             response = getRegisterResponse(input);
         } else if (SignInMenuCommands.LOGIN.matches(input)) {
 
@@ -52,5 +52,13 @@ public class SignInMenu implements Menu{
         request.body.put("email", SignInMenuCommands.REGISTER.getGroups(input, "email"));
         request.body.put("gender", SignInMenuCommands.REGISTER.getGroups(input, "gender"));
         return SignInMenuController.handleRegister(request);
+    }
+
+    private static Response getLoginResponse(String input) {
+        Request request = new Request(input);
+        request.body.put("username", SignInMenuCommands.LOGIN.getGroups(input, "username"));
+        request.body.put("password", SignInMenuCommands.LOGIN.getGroups(input, "password"));
+        request.body.put("loginFlag", SignInMenuCommands.LOGIN.getGroups(input, "loginFlag"));
+        return SignInMenuController.handleLogin(request);
     }
 }

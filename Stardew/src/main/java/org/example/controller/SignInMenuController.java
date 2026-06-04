@@ -1,8 +1,10 @@
 package org.example.controller;
 
+import org.example.model.App;
 import org.example.model.IO.Request;
 import org.example.model.IO.Response;
 import org.example.model.User;
+import org.example.model.enums.MenuTypes;
 import org.example.model.enums.Question;
 import org.example.repository.UserRepository;
 import org.example.utilities.Validation;
@@ -59,7 +61,7 @@ public class SignInMenuController extends Controller {
         if (!Validation.validateUsername(username)) {
             return new Response(false, "Username is invalid!");
         }
-        while (UserRepository.findByUsername(username) != null) {
+        while (UserRepository.existsByUsername(username)) {
             username = username + (int) (Math.random() * 69420);
         }
         if (!Validation.validateEmail(email)) {
@@ -122,5 +124,25 @@ public class SignInMenuController extends Controller {
             isProgramWaitingForPassword = false;
             return new Response(true, "Cancel registering");
         }
+    }
+
+    public static Response handleLogin(Request request) {
+        String username = request.body.get("username");
+        String password = request.body.get("password");
+        String loginFlag = request.body.get("loginFlag");
+
+        User user = UserRepository.findByUsername(username);
+        if (user == null) {
+            return new Response(false, "User not found!");
+        }
+        if (!Validation.hashPassword(password).equals(user.getPasswordHash())) {
+            return new Response(false, "Password doesn't match!");
+        }
+        if (loginFlag != null) {
+            UserRepository.saveStayLoggedInUser(user);
+        }
+        App.setCurrentUser(user);
+        App.setCurrentMenuType(MenuTypes.MainMenu);
+        return new Response(true, "Login Successful. Going to Main Menu!");
     }
 }

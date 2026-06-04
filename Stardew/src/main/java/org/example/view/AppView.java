@@ -1,7 +1,9 @@
 package org.example.view;
 
 import org.example.model.App;
+import org.example.model.User;
 import org.example.model.enums.MenuTypes;
+import org.example.repository.UserRepository;
 import org.example.utilities.Environment;
 import org.example.utilities.HibernateUtil;
 
@@ -14,6 +16,12 @@ public class AppView {
         Environment.load();
         HibernateUtil.getSessionFactory();
         System.out.println("Database Connected!");
+
+        User stayLoggedInUser = UserRepository.getStayLoggedInUser();
+        if (stayLoggedInUser != null) {
+            App.setCurrentUser(stayLoggedInUser);
+            App.setCurrentMenuType(MenuTypes.MainMenu);
+        }
 
         Runtime.getRuntime().addShutdownHook(
                 new Thread(HibernateUtil::shutdown));
