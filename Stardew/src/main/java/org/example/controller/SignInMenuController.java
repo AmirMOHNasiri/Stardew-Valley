@@ -80,7 +80,7 @@ public class SignInMenuController extends Controller {
                     "Type 1 or 2 or 3\n" +
                     "Continue [1]\nNew random password [2]\nBack [3]");
         } else {
-            if (!Validation.validatePasswordFormat(password)) {
+            if (Validation.validatePasswordFormat(password)) {
                 return new Response(false, "Password format is invalid!");
             }
             if (!Validation.validatePasswordSecurity(password).equals("Success")) {
@@ -197,7 +197,7 @@ public class SignInMenuController extends Controller {
                     "Type 1 or 2 or 3\n" +
                     "Continue [1]\nNew random password [2]\nBack [3]");
         } else {
-            if (!Validation.validatePasswordFormat(newPassword)) {
+            if (Validation.validatePasswordFormat(newPassword)) {
                 return new Response(false, "Password Format is invalid!");
             }
             if (!Validation.validatePasswordSecurity(newPassword).equals("Success")) {

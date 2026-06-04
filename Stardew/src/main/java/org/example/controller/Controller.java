@@ -16,7 +16,7 @@ public class Controller {
         }
     }
 
-    public static Response handleExitMenu(Request request) {
+    public static Response handleExitMenu() {
         if (App.getCurrentMenuType() == MenuTypes.SignInMenu) {
             App.setCurrentMenuType(MenuTypes.ExitMenu);
             return new Response(true, "Exiting app...");
@@ -25,7 +25,7 @@ public class Controller {
         }
     }
 
-    public static Response handleShowMenu(Request request) {
+    public static Response handleShowMenu() {
         return new Response(true, App.getCurrentMenuType().toString());
     }
 }

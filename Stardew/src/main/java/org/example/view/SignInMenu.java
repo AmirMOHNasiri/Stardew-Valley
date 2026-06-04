@@ -34,11 +34,11 @@ public class SignInMenu implements Menu{
         } else if (SignInMenuCommands.FORGET.matches(input)) {
             response = getForgetPasswordResponse(input);
         } else if (SignInMenuCommands.SHOW_MENU.matches(input)) {
-            response = getShowMenuResponse(input);
+            response = getShowMenuResponse();
         } else if (SignInMenuCommands.ENTER_MENU.matches(input)) {
             response = getEnterMenuResponse(input);
         } else if (SignInMenuCommands.EXIT_MENU.matches(input)) {
-            response = getExitMenuEnter(input);
+            response = getExitMenuEnter();
         } else {
             response = getInvalidCommand();
         }
@@ -98,9 +98,8 @@ public class SignInMenu implements Menu{
         return SignInMenuController.handleForgetPassword(request);
     }
 
-    private static Response getShowMenuResponse(String input) {
-        Request request = new Request(input);
-        return SignInMenuController.handleShowMenu(request);
+    private static Response getShowMenuResponse() {
+        return SignInMenuController.handleShowMenu();
     }
 
     private static Response getEnterMenuResponse(String input) {
@@ -108,8 +107,7 @@ public class SignInMenu implements Menu{
         return SignInMenuController.handleEnterMenu(request);
     }
 
-    private static Response getExitMenuEnter(String input) {
-        Request request = new Request(input);
-        return SignInMenuController.handleExitMenu(request);
+    private static Response getExitMenuEnter() {
+        return SignInMenuController.handleExitMenu();
     }
 }

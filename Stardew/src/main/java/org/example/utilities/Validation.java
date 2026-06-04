@@ -17,7 +17,7 @@ public class Validation {
     public static boolean validatePasswordFormat(String password) {
         @Language("Regexp")
         String regex = "[a-zA-Z\\d?><,\"';:\\\\/|\\]\\[}{+=)(*@&^%$#!]+";
-        return password.matches(regex);
+        return !password.matches(regex);
     }
 
     public static String validatePasswordSecurity(String password) {
