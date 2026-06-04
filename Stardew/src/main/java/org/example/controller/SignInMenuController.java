@@ -19,6 +19,10 @@ public class SignInMenuController extends Controller {
     private static User userWaitingForPassword = null;
     private static User userForgetPassword = null;
 
+    public static User getUserForgetPassword() {
+        return userForgetPassword;
+    }
+
     public static Response handleListQuestions() {
         Response response = new Response();
         response.setSuccess(true);
@@ -95,34 +99,43 @@ public class SignInMenuController extends Controller {
         return new Response(true, message);
     }
 
-    public static Response handleRandomPassword(String number) {
+    public static Response handleRandomPassword(Request request) {
         @Language("Regexp")
         String regex = "[1-3]";
+        String number = request.command;
         if (!number.matches(regex)) {
             return new Response(false, "Invalid operation!\nContinue [1]\nNew random password [2]\nBack [3]");
         }
         int num = Integer.parseInt(number);
+        User user = userWaitingForPassword;
         if (num == 1) {
-            userWaitingForQuestion = userWaitingForPassword;
-            isProgramWaitingForQuestion = true;
             userWaitingForPassword = null;
             isProgramWaitingForPassword = false;
-            String message = "User created! Password is: " + userPassword + "\n" +
-                    "Enter 'pick question -q <question number> -a <answer> -c <confirm answer>' to choose security question\n" +
-                    "You can enter 'list questions' command to see possible security questions\n";
+            String message;
+            if (userForgetPassword == null) {
+                userWaitingForQuestion = user;
+                isProgramWaitingForQuestion = true;
+                message = "User created! Password is: " + userPassword + "\n" +
+                        "Enter 'pick question -q <question number> -a <answer> -c <confirm answer>' to choose security question\n" +
+                        "You can enter 'list questions' command to see possible security questions\n";
+            } else {
+                message = "Password is changed! Password is: " + userPassword;
+                UserRepository.updateUser(user);
+                userForgetPassword = null;
+            }
             userPassword = null;
             return new Response(true, message);
         }else if (num == 2) {
             userPassword = Validation.createRandomPassword();
-            userWaitingForPassword.setPasswordHash(Validation.hashPassword(userPassword));
+            user.setPasswordHash(Validation.hashPassword(userPassword));
             return new Response(true, "Your password is " + userPassword + "\n" +
                     "Type 1 or 2 or 3\n" +
-                    "Continue [1]\nNew password [2]\nExit [3]");
+                    "Continue [1]\nNew password [2]\nBack [3]");
         } else {
             userWaitingForPassword = null;
             userPassword = null;
             isProgramWaitingForPassword = false;
-            return new Response(true, "Cancel registering");
+            return new Response(true, "Enter again your command.");
         }
     }
 
@@ -157,5 +170,44 @@ public class SignInMenuController extends Controller {
         isProgramWaitingForAnswer = true;
         return new Response(true, "User " + user.getUsername()
                 + ": Answer your security question next.");
+    }
+
+    public static Response handleAnswer(Request request) {
+        String answer = request.body.get("answer");
+
+        if (!answer.equals(userForgetPassword.getAnswer())) {
+            userForgetPassword = null;
+            isProgramWaitingForAnswer = false;
+            return new Response(false, "Answer doesn't match!");
+        }
+        isProgramWaitingForAnswer = false;
+        return new Response(true, "Your answer is correct; Enter your new password.");
+    }
+
+    public static Response handleChangePassword(Request request) {
+        User user = userForgetPassword;
+        String newPassword = request.command;
+
+        if (newPassword.compareToIgnoreCase("random") == 0) {
+            newPassword = Validation.createRandomPassword();
+            userPassword = newPassword;
+            isProgramWaitingForPassword = true;
+            userWaitingForPassword = user;
+            return new Response(true, "Your password is " + userPassword + "\n" +
+                    "Type 1 or 2 or 3\n" +
+                    "Continue [1]\nNew random password [2]\nBack [3]");
+        } else {
+            if (!Validation.validatePasswordFormat(newPassword)) {
+                return new Response(false, "Password Format is invalid!");
+            }
+            if (!Validation.validatePasswordSecurity(newPassword).equals("Success")) {
+                return new Response(false, "Password isn't secure! " +
+                        Validation.validatePasswordSecurity(newPassword));
+            }
+        }
+        user.setPasswordHash(Validation.hashPassword(newPassword));
+        UserRepository.updateUser(user);
+        userForgetPassword = null;
+        return new Response(true, "Successfully password change! Password updated to: " + newPassword);
     }
 }

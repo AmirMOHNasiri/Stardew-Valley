@@ -22,6 +22,22 @@ public class UserRepository {
         }
     }
 
+    public static void updateUser(User user) {
+        Transaction transaction = null;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.merge(user);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+
+            throw e;
+        }
+    }
+
     public static User findByUsername(String username) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()){
             return session.createQuery(

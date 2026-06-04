@@ -21,12 +21,12 @@ public class SignInMenu implements Menu{
             }
         } else if (SignInMenuController.isProgramWaitingForAnswer) {
             if (SignInMenuCommands.ANSWER.matches(input)) {
-                response = getAnswerResponse();
+                response = getAnswerResponse(input);
             } else {
                 response = getInvalidCommand();
             }
-        } else if () {
-
+        } else if (SignInMenuController.getUserForgetPassword() != null) {
+            response = getChangePasswordResponse(input);
         }else if (SignInMenuCommands.REGISTER.matches(input)) {
             response = getRegisterResponse(input);
         } else if (SignInMenuCommands.LOGIN.matches(input)) {
@@ -38,7 +38,8 @@ public class SignInMenu implements Menu{
     }
 
     private static Response getRandomPasswordResponse(String input) {
-        return SignInMenuController.handleRandomPassword(input);
+        Request request = new Request(input);
+        return SignInMenuController.handleRandomPassword(request);
     }
 
     private static Response getListQuestionsResponse() {
@@ -51,6 +52,17 @@ public class SignInMenu implements Menu{
         request.body.put("answer", SignInMenuCommands.PICK_QUESTION.getGroups(input, "answer"));
         request.body.put("answerConfirm", SignInMenuCommands.PICK_QUESTION.getGroups(input, "answerConfirm"));
         return SignInMenuController.handlePickQuestions(request);
+    }
+
+    private static Response getAnswerResponse(String input) {
+        Request request = new Request(input);
+        request.body.put("answer", SignInMenuCommands.ANSWER.getGroups(input, "answer"));
+        return SignInMenuController.handleAnswer(request);
+    }
+
+    private static Response getChangePasswordResponse(String input) {
+        Request request = new Request(input);
+        return SignInMenuController.handleChangePassword(request);
     }
 
     private static Response getRegisterResponse(String input) {
