@@ -70,14 +70,14 @@ public class SignInMenuController extends Controller {
         String nickname = request.body.get("nickname");
         String email = request.body.get("email");
         String gender = request.body.get("gender");
-        if (!Validation.validateUsername(username)) {
+        if (Validation.validateUsername(username)) {
             return new Response(false, "Username is invalid!");
         }
         while (UserRepository.existsByUsername(username)) {
             username = username + (int) (Math.random() * 69420);
             isProgramWaitingForUsername = true;
         }
-        if (!Validation.validateEmail(email)) {
+        if (Validation.validateEmail(email)) {
             return new Response(false, "Email is invalid!");
         }
         if (password.equalsIgnoreCase(passwordConfirm) &&  password.compareToIgnoreCase("random") == 0) {

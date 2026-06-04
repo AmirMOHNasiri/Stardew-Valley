@@ -21,6 +21,20 @@ public class Controller {
             } else {
                 return new Response(false, "Invalid target menu.");
             }
+        } else if (App.getCurrentMenuType() == MenuTypes.ProfileMenu) {
+            if (targetMenu.compareToIgnoreCase("MainMenu") == 0) {
+                App.setCurrentMenuType(MenuTypes.MainMenu);
+                return new Response(true, "Going to main menu...");
+            } else {
+                return new Response(false, "Invalid target menu.");
+            }
+        } else if (App.getCurrentMenuType() == MenuTypes.GameMenu) {
+            if (targetMenu.compareToIgnoreCase("MainMenu") == 0) {
+                App.setCurrentMenuType(MenuTypes.MainMenu);
+                return new Response(true, "Going to main menu...");
+            } else {
+                return new Response(false, "Invalid target menu.");
+            }
         } else {
             return new Response(false, "Invalid Operation.");
         }

@@ -11,7 +11,7 @@ public class Validation {
     public static boolean validateUsername(String username) {
         @Language("Regexp")
         String regex = "^[a-zA-Z\\d-]+$";
-        return username.matches(regex);
+        return !username.matches(regex);
     }
 
     public static boolean validatePasswordFormat(String password) {
@@ -62,33 +62,33 @@ public class Validation {
         String regex = "^(?<username>.+?)@(?<domain>.+?)\\.(?<tail>.+?)$";
         Matcher matcher = Pattern.compile(regex).matcher(email);
         if (!matcher.find()) {
-            return false;
+            return true;
         }
         String username = matcher.group("username");
         String domain = matcher.group("domain");
         String tail = matcher.group("tail");
         if (thisCharCount(email) != 1) {
-            return false;
+            return true;
         }
         if (!username.matches("^[a-zA-Z\\d_.-]+$")) {
-            return false;
+            return true;
         }
         if(email.contains("..")) {
-            return false;
+            return true;
         }
         if (invalidFrontAndEndChars(username)) {
-            return false;
+            return true;
         }
         if (!domain.matches("[a-zA-Z\\d-]+")) {
-            return false;
+            return true;
         }
         if (!tail.matches("[a-zA-Z]{2,}")) {
-            return false;
+            return true;
         }
         if (invalidFrontAndEndChars(domain)) {
-            return false;
+            return true;
         }
-        return !invalidFrontAndEndChars(tail);
+        return invalidFrontAndEndChars(tail);
     }
 
     public static String hashPassword(String password) {
