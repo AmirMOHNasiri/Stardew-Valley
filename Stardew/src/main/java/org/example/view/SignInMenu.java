@@ -9,7 +9,11 @@ public class SignInMenu implements Menu{
     @Override
     public void handleMenu(String input) {
         Response response;
-        if (SignInMenuController.isProgramWaitingForPassword) {
+        if (SignInMenuController.isProgramWaitingForPasswordConfirm) {
+            response = getPasswordConfirmResponse(input);
+        } else if (SignInMenuController.getUserWaitingForUsername() != null) {
+            response = getRandomUsernameResponse(input);
+        } else if (SignInMenuController.isProgramWaitingForPassword) {
             response = getRandomPasswordResponse(input);
         } else if (SignInMenuCommands.LIST_QUESTIONS.matches(input)) {
             response = getListQuestionsResponse();
@@ -27,7 +31,7 @@ public class SignInMenu implements Menu{
             }
         } else if (SignInMenuController.getUserForgetPassword() != null) {
             response = getChangePasswordResponse(input);
-        }else if (SignInMenuCommands.REGISTER.matches(input)) {
+        } else if (SignInMenuCommands.REGISTER.matches(input)) {
             response = getRegisterResponse(input);
         } else if (SignInMenuCommands.LOGIN.matches(input)) {
             response = getLoginResponse(input);
@@ -43,6 +47,16 @@ public class SignInMenu implements Menu{
             response = getInvalidCommand();
         }
         printResponse(response);
+    }
+
+    private static Response getPasswordConfirmResponse(String input) {
+        Request request = new Request(input);
+        return SignInMenuController.handlePasswordConfirm(request);
+    }
+
+    private static Response getRandomUsernameResponse(String input) {
+        Request request = new Request(input);
+        return SignInMenuController.handleRandomUsername(request);
     }
 
     private static Response getRandomPasswordResponse(String input) {

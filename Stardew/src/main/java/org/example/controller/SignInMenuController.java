@@ -11,9 +11,13 @@ import org.example.utilities.Validation;
 import org.intellij.lang.annotations.Language;
 
 public class SignInMenuController extends Controller {
+    public static boolean isProgramWaitingForPasswordConfirm = false;
+    public static boolean isProgramWaitingForUsername = false;
     public static boolean isProgramWaitingForPassword = false;
     public static boolean isProgramWaitingForQuestion = false;
     public static boolean isProgramWaitingForAnswer = false;
+    private static User userWaitingForPasswordConfirm = null;
+    private static User userWaitingForUsername = null;
     private static String userPassword;
     private static User userWaitingForQuestion = null;
     private static User userWaitingForPassword = null;
@@ -21,6 +25,9 @@ public class SignInMenuController extends Controller {
 
     public static User getUserForgetPassword() {
         return userForgetPassword;
+    }
+    public static User getUserWaitingForUsername() {
+        return userWaitingForUsername;
     }
 
     public static Response handleListQuestions() {
@@ -30,7 +37,8 @@ public class SignInMenuController extends Controller {
         StringBuilder stringBuilder = new StringBuilder("List of questions:\n");
         int index = 1;
         for (Question question : Question.values()) {
-            stringBuilder.append(index).append("- ").append(question).append("\n");
+            stringBuilder.append(index).append("- ").append(question.getQuestion()).append("\n");
+            index++;
         }
         response.setMessage(stringBuilder.toString());
         return response;
@@ -67,6 +75,7 @@ public class SignInMenuController extends Controller {
         }
         while (UserRepository.existsByUsername(username)) {
             username = username + (int) (Math.random() * 69420);
+            isProgramWaitingForUsername = true;
         }
         if (!Validation.validateEmail(email)) {
             return new Response(false, "Email is invalid!");
@@ -88,8 +97,18 @@ public class SignInMenuController extends Controller {
                         Validation.validatePasswordSecurity(password));
             }
             if (!password.equals(passwordConfirm)) {
-                return new Response(false, "Passwords do not match!");
+                isProgramWaitingForPasswordConfirm = true;
+                userPassword = password;
+                userWaitingForPasswordConfirm = new User(username, Validation.hashPassword(password), nickname, email, gender);
+                return new Response(true, "Passwords do not match! Please enter your password again or exit.");
             }
+        }
+        if (isProgramWaitingForUsername) {
+            userWaitingForUsername = new User(username, password, nickname, email, gender);
+            String message = "Username was exist! your new username is: " + username + "\n" +
+                    "Type 1 or 2\n" +
+                    "Continue [1]\nBack [2]";
+            return new Response(true, message);
         }
         userWaitingForQuestion = new User(username, Validation.hashPassword(password), nickname, email, gender);
         isProgramWaitingForQuestion = true;
@@ -97,6 +116,63 @@ public class SignInMenuController extends Controller {
                 "Enter 'pick question -q <question number> -a <answer> -c <confirm answer>' to choose security question\n" +
                 "You can enter 'list questions' command to see possible security questions\n";
         return new Response(true, message);
+    }
+
+    public static Response handlePasswordConfirm(Request request) {
+        String passwordConfirm = request.command;
+        if (passwordConfirm.compareToIgnoreCase("exit") == 0) {
+            isProgramWaitingForPasswordConfirm = false;
+            userPassword = null;
+            userWaitingForPasswordConfirm = null;
+            return new Response(true, "Register again.");
+        }
+        User user = userWaitingForPasswordConfirm;
+        if (!user.getPasswordHash().equals(Validation.hashPassword(passwordConfirm))) {
+            return new Response(false, "Passwords do not match! Please enter your password again or exit.");
+        } else {
+            isProgramWaitingForPasswordConfirm = false;
+            userPassword = null;
+            userWaitingForPasswordConfirm = null;
+            if (isProgramWaitingForUsername) {
+                user.setPasswordHash(passwordConfirm);
+                userWaitingForUsername = user;
+                String message = "Username was exist! your new username is: " + user.getUsername() + "\n" +
+                        "Type 1 or 2\n" +
+                        "Continue [1]\nBack [2]";
+                return new Response(true, message);
+            } else {
+                userWaitingForQuestion = user;
+                isProgramWaitingForQuestion = true;
+                String message = "User created! Password is: " + passwordConfirm + "\n" +
+                        "Enter 'pick question -q <question number> -a <answer> -c <confirm answer>' to choose security question\n" +
+                        "You can enter 'list questions' command to see possible security questions\n";
+                return new Response(true, message);
+            }
+        }
+    }
+
+    public static Response handleRandomUsername(Request request) {
+        @Language("Regexp")
+        String regex = "[1-2]";
+        String number = request.command;
+        if (!number.matches(regex)) {
+            return new Response(false, "Invalid operation!\nContinue [1]\nBack [2]");
+        }
+        int num = Integer.parseInt(number);
+        User user = userWaitingForUsername;
+        userWaitingForUsername = null;
+        isProgramWaitingForUsername = false;
+        if (num == 1) {
+            String message = "User created! Password is: " + user.getPasswordHash() + "\n" +
+                    "Enter 'pick question -q <question number> -a <answer> -c <confirm answer>' to choose security question\n" +
+                    "You can enter 'list questions' command to see possible security questions\n";
+            user.setPasswordHash(Validation.hashPassword(user.getPasswordHash()));
+            userWaitingForQuestion = user;
+            isProgramWaitingForQuestion = true;
+            return new Response(true, message);
+        } else {
+            return new Response(true, "Register again.");
+        }
     }
 
     public static Response handleRandomPassword(Request request) {
