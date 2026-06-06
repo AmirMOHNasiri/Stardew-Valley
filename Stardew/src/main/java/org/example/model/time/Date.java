@@ -38,17 +38,9 @@ public class Date {
 
     public void addHour(int hourPlus) {
         hour += hourPlus;
-        if (hour > 22) {
-            addDay(1);
-            hour = 9;
-        }
     }
 
     public void addDay(int dayPlus) {
         day += dayPlus;
-        if (day > 28) {
-            day = 1;
-            season = season.nextSeason();
-        }
     }
 }
