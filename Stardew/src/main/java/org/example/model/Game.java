@@ -1,5 +1,8 @@
 package org.example.model;
 
+import org.example.model.time.Date;
+import org.example.model.time.Weather;
+
 import java.util.ArrayList;
 
 public class Game {

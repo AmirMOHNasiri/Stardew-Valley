@@ -2,7 +2,6 @@ package org.example.model;
 
 
 import jakarta.persistence.*;
-import org.example.model.enums.Question;
 
 @Entity
 @Table(name = "users")

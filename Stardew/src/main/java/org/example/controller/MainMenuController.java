@@ -2,7 +2,7 @@ package org.example.controller;
 
 import org.example.model.App;
 import org.example.model.IO.Response;
-import org.example.model.enums.MenuTypes;
+import org.example.model.MenuTypes;
 import org.example.repository.UserRepository;
 
 public class MainMenuController extends Controller {

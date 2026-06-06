@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.model.time;
 
 public enum Season {
     SPRING("Spring"),
@@ -14,5 +14,9 @@ public enum Season {
 
     public String getSeason() {
         return season;
+    }
+
+    public Season nextSeason() {
+        return values()[(this.ordinal() + 1) % values().length];
     }
 }

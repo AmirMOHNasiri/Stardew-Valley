@@ -3,7 +3,7 @@ package org.example.controller;
 import org.example.model.App;
 import org.example.model.IO.Request;
 import org.example.model.IO.Response;
-import org.example.model.enums.MenuTypes;
+import org.example.model.MenuTypes;
 
 public class Controller {
     public static Response handleEnterMenu(Request request) {

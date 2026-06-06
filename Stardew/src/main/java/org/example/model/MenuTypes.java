@@ -1,4 +1,4 @@
-package org.example.model.enums;
+package org.example.model;
 
 import org.example.view.*;
 import org.example.view.gameview.GameMenu;

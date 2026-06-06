@@ -2,7 +2,7 @@ package org.example.view;
 
 import org.example.model.App;
 import org.example.model.User;
-import org.example.model.enums.MenuTypes;
+import org.example.model.MenuTypes;
 import org.example.repository.UserRepository;
 import org.example.utilities.Environment;
 import org.example.utilities.HibernateUtil;

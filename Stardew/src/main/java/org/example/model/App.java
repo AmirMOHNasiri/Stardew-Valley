@@ -1,7 +1,5 @@
 package org.example.model;
 
-import org.example.model.enums.MenuTypes;
-
 public class App {
     private static User currentUser = null;
     private static MenuTypes currentMenuType = MenuTypes.SignInMenu;

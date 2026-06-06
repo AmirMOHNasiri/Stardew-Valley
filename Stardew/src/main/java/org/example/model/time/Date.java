@@ -1,6 +1,4 @@
-package org.example.model;
-
-import java.util.ArrayList;
+package org.example.model.time;
 
 public class Date {
     private int hour;
@@ -36,5 +34,21 @@ public class Date {
                 "Friday"
         };
         return daysOfWeek[(day - 1) % 7];
+    }
+
+    public void addHour(int hourPlus) {
+        hour += hourPlus;
+        if (hour > 22) {
+            addDay(1);
+            hour = 9;
+        }
+    }
+
+    public void addDay(int dayPlus) {
+        day += dayPlus;
+        if (day > 28) {
+            day = 1;
+            season = season.nextSeason();
+        }
     }
 }

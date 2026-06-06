@@ -1,4 +1,4 @@
-package org.example.model.enums;
+package org.example.model;
 
 public enum Question {
     PET_QUESTION("What is your favorite pet?"),
