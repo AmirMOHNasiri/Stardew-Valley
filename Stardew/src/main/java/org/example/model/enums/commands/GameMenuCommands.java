@@ -10,6 +10,7 @@ public enum GameMenuCommands implements Command {
     GAME_MAP("^game\\s+map\\s+(?<mapNumber>\\d+)$"),
     LOAD_GAME("^load\\s+game$"),
     EXIT_GAME("^exit\\s+game$"),
+    FORCE_DELETE_GAME("^force\\s+delete\\s+game$"),
     NEXT_TURN("^next\\s+turn$"),
     TIME("^time$"),
     DATE("^date$"),

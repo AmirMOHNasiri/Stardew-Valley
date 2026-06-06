@@ -1,6 +1,7 @@
 package org.example.model.enums;
 
 import org.example.view.*;
+import org.example.view.gameview.GameMenu;
 
 public enum MenuTypes {
     SignInMenu(new SignInMenu()),
