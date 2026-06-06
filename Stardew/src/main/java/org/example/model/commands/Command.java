@@ -1,4 +1,4 @@
-package org.example.model.enums.commands;
+package org.example.model.commands;
 
 
 import org.intellij.lang.annotations.Language;

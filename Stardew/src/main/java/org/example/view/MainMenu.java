@@ -3,7 +3,7 @@ package org.example.view;
 import org.example.controller.MainMenuController;
 import org.example.model.IO.Request;
 import org.example.model.IO.Response;
-import org.example.model.enums.commands.MainMenuCommands;
+import org.example.model.commands.MainMenuCommands;
 
 public class MainMenu implements Menu {
     @Override

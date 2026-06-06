@@ -1,19 +1,23 @@
-package org.example.model.enums.commands;
+package org.example.model.commands;
 
 import org.intellij.lang.annotations.Language;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public enum MainMenuCommands implements Command {
-    USER_LOGOUT("^user\\s+logout$"),
+public enum ProfileMenuCommands implements Command {
+    CHANGE_USERNAME("^change\\s+username\\s+-u\\s+(?<username>.+)$"),
+    CHANGE_NICKNAME("^change\\s+nickname\\s+-u\\s+(?<nickname>.+)$"),
+    CHANGE_EMAIL("^change\\s+email\\s+-e\\s+(?<email>.+)$"),
+    CHANGE_PASSWORD("^change\\s+password\\s+-p\\s+(?<newPassword>.+?)\\s+-o\\s+(?<oldPassword>.+)$"),
+    USER_INFO("^user\\s+info$"),
     SHOW_MENU(Command.SHOW_MENU),
     EXIT_MENU(Command.EXIT_MENU),
     ENTER_MENU(Command.ENTER_MENU);
 
     private final String regex;
 
-    MainMenuCommands(@Language("Regexp") String regex) {
+    ProfileMenuCommands(@Language("Regexp") String regex) {
         this.regex = regex;
     }
 

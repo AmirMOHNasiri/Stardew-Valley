@@ -3,7 +3,7 @@ package org.example.view;
 import org.example.controller.SignInMenuController;
 import org.example.model.IO.Request;
 import org.example.model.IO.Response;
-import org.example.model.enums.commands.SignInMenuCommands;
+import org.example.model.commands.SignInMenuCommands;
 
 public class SignInMenu implements Menu {
     @Override
