@@ -26,8 +26,8 @@
     "energy": 75,
     "season": ["SPRING"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Cauliflower",
@@ -56,8 +56,8 @@
     "energy": 0,
     "season": ["SPRING", "SUMMER"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Garlic",
@@ -71,8 +71,8 @@
     "energy": 20,
     "season": ["SPRING"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Green Bean",
@@ -86,8 +86,8 @@
     "energy": 25,
     "season": ["SPRING"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Kale",
@@ -101,8 +101,8 @@
     "energy": 50,
     "season": ["SPRING"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Parsnip",
@@ -146,8 +146,8 @@
     "energy": 0,
     "season": ["SPRING"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Strawberry",
@@ -161,8 +161,8 @@
     "energy": 50,
     "season": ["SPRING"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Tulip",
@@ -191,8 +191,8 @@
     "energy": 3,
     "season": ["SPRING"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Blueberry",
@@ -206,8 +206,8 @@
     "energy": 25,
     "season": ["SUMMER"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Corn",
@@ -236,8 +236,8 @@
     "energy": 45,
     "season": ["SUMMER"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Hot Pepper",
@@ -266,8 +266,8 @@
     "energy": 113,
     "season": ["SUMMER"],
     "canBecomeGiant": true,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Poppy",
@@ -311,8 +311,8 @@
     "energy": 75,
     "season": ["SUMMER"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Starfruit",
@@ -326,8 +326,8 @@
     "energy": 125,
     "season": ["SUMMER"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Summer Spangle",
@@ -356,8 +356,8 @@
     "energy": 63,
     "season": ["SUMMER"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Sunflower",
@@ -386,8 +386,8 @@
     "energy": 20,
     "season": ["SUMMER"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Wheat",
@@ -416,8 +416,8 @@
     "energy": 50,
     "season": ["FALL"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Artichoke",
@@ -446,8 +446,8 @@
     "energy": 30,
     "season": ["FALL"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Bok Choy",
@@ -461,8 +461,8 @@
     "energy": 25,
     "season": ["FALL"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Broccoli",
@@ -476,8 +476,8 @@
     "energy": 63,
     "season": ["FALL"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Cranberries",
@@ -491,8 +491,8 @@
     "energy": 38,
     "season": ["FALL"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Eggplant",
@@ -536,8 +536,8 @@
     "energy": 38,
     "season": ["FALL"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Pumpkin",
@@ -566,8 +566,8 @@
     "energy": 45,
     "season": ["FALL"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Sweet Gem Berry",
@@ -581,8 +581,8 @@
     "energy": 0,
     "season": ["FALL"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   },
   {
     "name": "Powdermelon",
@@ -611,7 +611,7 @@
     "energy": 0,
     "season": ["SPRING","SUMMER","FALL"],
     "canBecomeGiant": false,
-    "isMixedSeed": false,
-    "mixedSeason": []
+    "isMixedSeed": null,
+    "mixedSeason": null
   }
 ]
